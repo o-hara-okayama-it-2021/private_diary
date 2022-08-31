@@ -8,11 +8,11 @@ from .forms import InquiryForm
 
 logger = logging.getLogger(__name__)
 
-# トップページ
+# トップ
 class IndexView(generic.TemplateView):
     template_name = "index.html"
 
-# お問合せページ
+# お問い合わせ
 class InquiryView(generic.FormView):
     template_name = "inquiry.html"
     form_class = InquiryForm
