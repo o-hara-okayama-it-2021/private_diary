@@ -19,12 +19,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
-# 'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        # 'NAME': 'private_diary',
-        # 'USER': os.environ.get('DB_USER'),
-        # 'PASSWORD': os.environ.get('DB_PASSWORD'),
-        # 'HOST': '',
-        # 'PORT': '',
 
 # Application definition
 
@@ -39,6 +33,12 @@ INSTALLED_APPS = [
     'diary.apps.DiaryConfig',
     'accounts.apps.AccountsConfig',
     'testapp.apps.TestappConfig',
+
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+
+    'django_bootstrap5',
 ]
 
 MIDDLEWARE = [
@@ -75,6 +75,7 @@ WSGI_APPLICATION = 'private_diary.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# データベース設定
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -86,7 +87,6 @@ DATABASES = {
     }
 }
 
-AUTH_USER_MODEL = 'accounts.CustomUser'
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -141,3 +141,34 @@ MESSAGE_TAGS = {
     messages.SUCCESS: 'alert alert-success',
     messages.INFO: 'alert alert-info',
 }
+
+AUTH_USER_MODEL = 'accounts.CustomUser'
+
+# django-allauthで利用するdjango.contrib.sitesを使うためにサイト識別用IDを設定
+SITE_ID = 1
+
+AUTHENTICATION_BACKENDS = (
+    'allauth.account.auth_backends.AuthenticationBackend',  # 一般ユーザー用(メールアドレス認証)
+    'django.contrib.auth.backends.ModelBackend',  # 管理サイト用(ユーザー名認証)
+)
+
+# メールアドレス認証に変更する設定
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_USERNAME_REQUIRED = False
+
+# サインアップにメールアドレス確認をはさむよう設定
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_REQUIRED = True
+
+# ログイン/ログアウト後の遷移先を設定
+LOGIN_REDIRECT_URL = 'diary:index'
+ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'
+
+# ログアウトリンクのクリック一発でログアウトする設定
+ACCOUNT_LOGOUT_ON_GET = True
+
+# django-allauthが送信するメールの件名に自動付与される接頭辞をブランクにする設定
+ACCOUNT_EMAIL_SUBJECT_PREFIX = ''
+
+# デフォルトのメール送信元を設定
+DEFAULT_FROM_EMAIL = os.environ.get('FROM_EMAIL')
