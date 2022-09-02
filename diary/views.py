@@ -38,3 +38,9 @@ class DiaryListView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
         diaries = Diary.objects.filter(user=self.request.user).order_by('-created_at')
         return diaries
+
+class DiaryDetailView(LoginRequiredMixin, generic.DetailView):
+    """ 日記詳細表示 """
+
+    model = Diary
+    template_name = 'diary_detail.html'
