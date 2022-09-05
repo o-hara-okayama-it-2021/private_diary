@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Diary
+
+# 管理サイトに日記モデルを登録
+admin.site.register(Diary)
