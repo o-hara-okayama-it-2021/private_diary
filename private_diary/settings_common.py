@@ -32,6 +32,7 @@ INSTALLED_APPS = [
 
     'diary.apps.DiaryConfig',
     'accounts.apps.AccountsConfig',
+    'blog.apps.BlogConfig',
     'testapp.apps.TestappConfig',
 
     'django.contrib.sites',
@@ -174,3 +175,7 @@ ACCOUNT_EMAIL_SUBJECT_PREFIX = ''
 
 # デフォルトのメール送信元を設定
 DEFAULT_FROM_EMAIL = os.environ.get('FROM_EMAIL')
+
+# バックアップバッチ用
+BACKUP_PATH = 'backup/'
+NUM_SAVED_BACKUP = 30
