@@ -32,6 +32,7 @@ INSTALLED_APPS = [
 
     'diary.apps.DiaryConfig',
     'accounts.apps.AccountsConfig',
+    'blog.apps.BlogConfig',
     'testapp.apps.TestappConfig',
 
     'django.contrib.sites',
