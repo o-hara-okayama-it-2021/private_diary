@@ -1,12 +1,26 @@
 from django.contrib import messages
 from django.views import generic
 from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.shortcuts import get_object_or_404
 from .models import Blog
 from .forms import BlogCreateForm
 
 import logging
 logger = logging.getLogger(__name__)
+
+
+
+class OnlyYouMixin(UserPassesTestMixin):
+    """ ログイン済ユーザのアクセス制御 """
+
+    raise_exception = True
+
+    def test_func(self):
+        # URLに埋め込まれた主キーから日記データを1件取得。取得できなかった場合は404エラー
+        blog = get_object_or_404(Blog, pk=self.kwargs['pk'])
+        # ログインユーザーと日記の作成ユーザーを比較し、異なればraise_exceptionの設定に従う
+        return self.request.user == blog.user
 
 class BlogIndexView(generic.TemplateView):
     template_name = "blog_index.html"
@@ -22,11 +36,14 @@ class BlogListView(LoginRequiredMixin, generic.ListView):
         blogs = Blog.objects.filter(user=self.request.user).order_by('-created_at')
         return blogs
 
-class BlogDetailView(generic.TemplateView):
-    template_name = "blog_detail.html"
+class BlogDetailView(LoginRequiredMixin, OnlyYouMixin, generic.DetailView):
+    """ 記事詳細表示 """
+
+    model = Blog
+    template_name = 'blog_detail.html'
 
 class BlogCreateView(LoginRequiredMixin, generic.CreateView):
-    """ 日記作成表示 """
+    """ 記事作成表示 """
 
     model = Blog
     template_name = 'blog_create.html'
