@@ -1,0 +1,32 @@
+body, #wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+footer {
+  margin-top:auto;
+}
+
+.my-div-style {
+  margin-top: 6rem;
+}
+
+.navbar-custom {
+  box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%);
+  background-color: #fff;
+  transition: background-color 0.2s ease;
+}
+
+.bg-masthead {
+  position: relative;
+  width: 100%;
+  height: auto;
+  min-height: 35rem;
+  padding: 15rem 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 75%, #000 100%), url("../assets/img/bg-masthead.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-size: cover;
+}
