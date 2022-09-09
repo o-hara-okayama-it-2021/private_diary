@@ -30,3 +30,13 @@ footer {
   background-attachment: scroll;
   background-size: cover;
 }
+
+.fade{
+  text-align: center;
+  opacity : 0;
+  transition: opacity 3s;
+}
+
+.fade.view{
+  opacity: 1;
+}
